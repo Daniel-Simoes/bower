@@ -58,7 +58,7 @@ const randomImageURL = 'https://img.freepik.com/fotos-premium/retrato-de-engenhe
           <Ionicons name="log-out-outline" size={24} color="white" />
           <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
-        <Text style={styles.versionText}>BeiraMar v1.0.0</Text>
+        <Text style={styles.versionText}>Bower v1.0.0</Text>
       </View>
     </View>
         </DrawerContentScrollView>

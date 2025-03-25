@@ -4,7 +4,8 @@ import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router'; // Importe o router
+import { useRouter } from 'expo-router';
+import { BlurView } from 'expo-blur';
 
 export default function CameraScreen() {
 
@@ -109,16 +110,17 @@ export default function CameraScreen() {
         onBarcodeScanned={hasScanned || isLoading ? undefined : handleBarCodeScanned} // Bloqueia scanner enquanto carrega
       >
         {/* ✅ Botão de fechar com confirmação */}
+        {!isMenuOpen && (
         <TouchableOpacity style={styles.circleButton} onPress={showCloseConfirmation}>
-          <LinearGradient colors={['#FF9900', '#FF9900']} style={styles.circleButtonGradient}>
+          <BlurView intensity={30} tint="light" style={styles.circleButtonGradient}>
             <Ionicons name="close" size={30} color="white" />
-          </LinearGradient>
+          </BlurView>
         </TouchableOpacity>
-
+        )}
         <View style={styles.overlay}>
           {isLoading ? (
             <>
-              <ActivityIndicator size="large" color="#FF9900" />
+              <ActivityIndicator size="large" color="#00000091" />
               <Text style={styles.scanText}>Processando...</Text>
             </>
           ) : !hasScanned ? (
@@ -142,24 +144,25 @@ export default function CameraScreen() {
         return (
           <Animated.View key={index} style={[styles.subButton, { transform: [{ translateX }, { translateY }], opacity }]}>
             <TouchableOpacity style={styles.smallButton} onPress={() => Alert.alert(pos.label, `${pos.label} ativado.`)}>
+            <BlurView intensity={30} tint="light" style={styles.smallBlurButton}>
               <Ionicons name={pos.icon} size={24} color="white" />
+            </BlurView>
             </TouchableOpacity>
           </Animated.View>
         );
       })}
       {/* FAB Principal */}
+      
        <TouchableOpacity style={styles.fabButton} onPress={toggleMenu}>
-         <LinearGradient colors={['#FF9900', '#FF9900']} style={styles.fabButtonGradient}>
+       <BlurView intensity={30} tint="light" style={styles.blurButton}>
+  
            <Ionicons name={isMenuOpen ? 'close' : 'home'} size={30} color="white" />
-        </LinearGradient>
-       </TouchableOpacity>
-     </View>
-          // <TouchableOpacity style={styles.fabButton} onPress={showAlert}>
-          //   <LinearGradient colors={['#995C00', '#FF9900']} style={styles.fabButtonGradient}>
-          //     <Ionicons name="home" size={30} color="white" />
-          //   </LinearGradient>
-          // </TouchableOpacity>
-        )}
+          
+          </BlurView>
+        </TouchableOpacity>
+      
+    </View>
+      )}
       </CameraView>
     </View>
   );
@@ -195,15 +198,14 @@ const styles = StyleSheet.create({
   subButton: {
     position: 'absolute',
   },
-  smallButton: {
-    backgroundColor: '#FF9900',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
+  smallBlurButton: {
+    width: 55, 
+    height: 55, 
+    borderRadius: 30, 
+    justifyContent: 'center', 
     alignItems: 'center',
+    overflow: 'hidden', // Garante que o blur fique dentro do botão
   },
-
 
   container: {
     flex: 1,
@@ -220,7 +222,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    // backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   scannerFrame: {
     width: 200,
@@ -253,27 +255,17 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden', // Garante que o blur fique dentro do botão
   },
-  // fabButton: {
-  //   position: 'absolute',
-  //   bottom: 40,
-  //   left: '50%',
-  //   transform: [{ translateX: -30 }],
-  //   width: 60,
-  //   height: 60,
-  //   borderRadius: 30,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   zIndex: 20, // Garante que o botão fique por cima de outros elementos
-  //   elevation: 10, // Dá um efeito de sombra mais forte
-  // },
-  // fabButtonGradient: {
-  //   width: '100%',
-  //   height: '100%',
-  //   borderRadius: 30,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
+  blurButton: {
+    position: 'absolute',
+    width: 60, 
+    height: 60, 
+    borderRadius: 30, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    overflow: 'hidden', // Garante que o blur fique dentro do botão
+  },
 });
 
 

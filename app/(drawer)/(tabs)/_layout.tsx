@@ -80,7 +80,7 @@ export default function TabLayout() {
               <LinearGradient colors={['#995C00', '#FF9900']} style={{ flex: 1 }} />
             ),
             headerRight: () => (
-              <TouchableOpacity style={{ marginRight: 15 }}>
+              <TouchableOpacity style={{ marginRight: 15 }} onPress={() => router.push('/profile')}>
                 <View style={styles.profileImageContainer}>
                   <Image source={{ uri: randomImageURL }} style={styles.profileImage} />
                 </View>
