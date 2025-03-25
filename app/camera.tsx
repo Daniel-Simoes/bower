@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { ActivityIndicator, Button, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import { Animated, ActivityIndicator, Button, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
@@ -7,12 +7,37 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router'; // Importe o router
 
 export default function CameraScreen() {
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const animation = useRef(new Animated.Value(0)).current; // UseRef para manter o valor da animação
   const [facing, setFacing] = useState<CameraType>('back');
   const [permission, requestPermission] = useCameraPermissions();
   const [hasScanned, setHasScanned] = useState(false); // Controla se o QR Code foi escaneado
   const [isLoading, setIsLoading] = useState(false); // Estado para mostrar loading
   const navigation = useNavigation();
   const router = useRouter(); // Inicializa o router
+
+
+  const toggleMenu = () => {
+    Animated.timing(animation, {
+      toValue: isMenuOpen ? 0 : 1,
+      duration: 300,
+      useNativeDriver: true, // Melhor performance
+    }).start();
+    
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Posições dos botões (meia-lua)
+  const positions = [
+    { x: -80, y: 0, icon: "flame-outline", label: "Aquecedor" },
+    { x: -60, y: -60, icon: "water-outline", label: "Chuveiro" },
+    { x: 0, y: -80, icon: "bulb-outline", label: "Iluminação" },
+    { x: 60, y: -60, icon: "wifi-outline", label: "Wi-Fi" },
+    { x: 80, y: 0, icon: "lock-closed-outline", label: "Segurança" },
+  ];
+
+
 
   useEffect(() => {
     navigation.setOptions({
@@ -85,7 +110,7 @@ export default function CameraScreen() {
       >
         {/* ✅ Botão de fechar com confirmação */}
         <TouchableOpacity style={styles.circleButton} onPress={showCloseConfirmation}>
-          <LinearGradient colors={['#995C00', '#FF9900']} style={styles.circleButtonGradient}>
+          <LinearGradient colors={['#FF9900', '#FF9900']} style={styles.circleButtonGradient}>
             <Ionicons name="close" size={30} color="white" />
           </LinearGradient>
         </TouchableOpacity>
@@ -106,11 +131,34 @@ export default function CameraScreen() {
 
         {/* Se já escaneou, exibe botão para alternar câmera ou mostrar alerta */}
         {hasScanned && (
-          <TouchableOpacity style={styles.fabButton} onPress={showAlert}>
-            <LinearGradient colors={['#995C00', '#FF9900']} style={styles.fabButtonGradient}>
-              <Ionicons name="home" size={30} color="white" />
-            </LinearGradient>
-          </TouchableOpacity>
+
+
+    <View style={styles.containerer}>
+      {positions.map((pos, index) => {
+        const translateX = animation.interpolate({ inputRange: [0, 1], outputRange: [0, pos.x] });
+        const translateY = animation.interpolate({ inputRange: [0, 1], outputRange: [0, pos.y] });
+        const opacity = animation.interpolate({ inputRange: [0, 1], outputRange: [0, 1] });
+
+        return (
+          <Animated.View key={index} style={[styles.subButton, { transform: [{ translateX }, { translateY }], opacity }]}>
+            <TouchableOpacity style={styles.smallButton} onPress={() => Alert.alert(pos.label, `${pos.label} ativado.`)}>
+              <Ionicons name={pos.icon} size={24} color="white" />
+            </TouchableOpacity>
+          </Animated.View>
+        );
+      })}
+      {/* FAB Principal */}
+       <TouchableOpacity style={styles.fabButton} onPress={toggleMenu}>
+         <LinearGradient colors={['#FF9900', '#FF9900']} style={styles.fabButtonGradient}>
+           <Ionicons name={isMenuOpen ? 'close' : 'home'} size={30} color="white" />
+        </LinearGradient>
+       </TouchableOpacity>
+     </View>
+          // <TouchableOpacity style={styles.fabButton} onPress={showAlert}>
+          //   <LinearGradient colors={['#995C00', '#FF9900']} style={styles.fabButtonGradient}>
+          //     <Ionicons name="home" size={30} color="white" />
+          //   </LinearGradient>
+          // </TouchableOpacity>
         )}
       </CameraView>
     </View>
@@ -118,6 +166,45 @@ export default function CameraScreen() {
 }
 
 const styles = StyleSheet.create({
+
+  containerer: {
+    position: 'absolute',
+    bottom: 40,
+    left: '50%',
+    transform: [{ translateX: -30 }],
+    alignItems: 'center',
+       zIndex: 20, // Garante que o botão fique por cima de outros elementos
+  //   elevation: 10, // Dá um efeito de sombra mais forte
+  },
+
+  fabButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 10,
+  },
+  fabButtonGradient: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subButton: {
+    position: 'absolute',
+  },
+  smallButton: {
+    backgroundColor: '#FF9900',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -167,24 +254,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  fabButton: {
-    position: 'absolute',
-    bottom: 40,
-    left: '50%',
-    transform: [{ translateX: -30 }],
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 20, // Garante que o botão fique por cima de outros elementos
-    elevation: 10, // Dá um efeito de sombra mais forte
-  },
-  fabButtonGradient: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  // fabButton: {
+  //   position: 'absolute',
+  //   bottom: 40,
+  //   left: '50%',
+  //   transform: [{ translateX: -30 }],
+  //   width: 60,
+  //   height: 60,
+  //   borderRadius: 30,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   zIndex: 20, // Garante que o botão fique por cima de outros elementos
+  //   elevation: 10, // Dá um efeito de sombra mais forte
+  // },
+  // fabButtonGradient: {
+  //   width: '100%',
+  //   height: '100%',
+  //   borderRadius: 30,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
 });
+
+
