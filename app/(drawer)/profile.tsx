@@ -7,7 +7,7 @@ export default function ProfileScreen() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <>
       {/* Header com Gradiente */}
       <LinearGradient colors={['#007AFF', '#4DA8FF']} style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
@@ -17,7 +17,7 @@ export default function ProfileScreen() {
         <Text style={styles.profileName}>Mark Philips</Text>
         <Text style={styles.profileRole}>Eletricista</Text>
       </LinearGradient>
-
+      <View style={styles.container}>
       {/* Formulário */}
       <View style={styles.form}>
         <Text style={styles.sectionTitle}>Detalhes Pessoais</Text>
@@ -57,17 +57,23 @@ export default function ProfileScreen() {
         </TouchableOpacity>
       </View>
     </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8F8F8' },
+
+  container: { 
+    flex: 1, 
+    backgroundColor: '#F8F8F8',
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    
+  },
   header: {
-    height: 180,
+    height: 260,
     alignItems: 'center',
     justifyContent: 'center',
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
   },
   backButton: {
     position: 'absolute',
