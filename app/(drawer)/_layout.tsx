@@ -23,7 +23,7 @@ const randomImageURL = 'https://img.freepik.com/fotos-premium/retrato-de-engenhe
   const CustomDrawerContent = (props) => {
     return(
       <>
-        <StatusBar style={isDrawerOpen ? 'dark' : 'light'} />
+        <StatusBar style={isDrawerOpen ? 'light' : 'dark'} />
         <DrawerContentScrollView {...props}>
         <View style={styles.drawerContainer}>
       {/* Perfil do Usuário */}

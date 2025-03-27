@@ -14,6 +14,9 @@ import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+
+
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
@@ -51,10 +54,10 @@ export default function TabLayout() {
           screenOptions={{
             // sceneContainerStyle: { backgroundColor: 'white' }, // Fundo branco para Tabs
             // drawerContentStyle: { backgroundColor: 'white' }, // Fundo branco para Drawer
-            tabBarActiveTintColor: '#FF9900',
+            tabBarActiveTintColor: '#0475FF',
             tabBarInactiveTintColor: '#D3D3D3',
             tabBarStyle: {
-              backgroundColor: '#4A4A4A',
+              backgroundColor: '#ffffff',
               borderTopWidth: 0,
               paddingTop: 10,
               height: 60,
@@ -66,10 +69,9 @@ export default function TabLayout() {
             headerShown: true,
             headerTitle: "",
             tabBarButton: HapticTab,
-            tabBarBackground: TabBarBackground,
             headerLeft: () => (
-              <TouchableOpacity style={styles.circleButton}>
-                <DrawerToggleButton tintColor="white" />
+              <TouchableOpacity>
+                <DrawerToggleButton tintColor="#0475FF" />
               </TouchableOpacity>
             ),
             headerStyle: {
@@ -77,7 +79,7 @@ export default function TabLayout() {
               backgroundColor: 'transparent',
             },
             headerBackground: () => (
-              <LinearGradient colors={['#995C00', '#FF9900']} style={{ flex: 1 }} />
+              <View style={{ flex: 1,backgroundColor:'#ffffff' }} />
             ),
             headerRight: () => (
               <TouchableOpacity style={{ marginRight: 15 }} onPress={() => router.push('/profile')}>
@@ -92,7 +94,7 @@ export default function TabLayout() {
             name="index"
             options={{
               title: '',
-              tabBarIcon: ({ color }) => <Ionicons name="home" size={28} color={color} />,
+              tabBarIcon: ({ color }) => <Ionicons name="home-outline" size={28} color={color} />,
             }}
           />
 
@@ -100,7 +102,7 @@ export default function TabLayout() {
             name="notifications"
             options={{
               title: '',
-              tabBarIcon: ({ color }) => <Ionicons name="notifications" size={28} color={color} />,
+              tabBarIcon: ({ color }) => <Ionicons name="notifications-outline" size={28} color={color} />,
               headerShown: true,
               headerTitleAlign: 'center',
               headerStyle: {
@@ -119,9 +121,9 @@ export default function TabLayout() {
 
         {/* Botão Flutuante QR Code */}
         <TouchableOpacity style={styles.qrButton} onPress={() => router.push('/camera')}>
-          <LinearGradient colors={['#995C00', '#FF9900']} style={styles.qrButtonGradient}>
+          <View style={styles.qrButtonGradient}>
             <Ionicons name="qr-code" size={30} color="white" />
-          </LinearGradient>
+          </View>
         </TouchableOpacity>
       </Animated.View>
       
@@ -138,23 +140,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white', // Mantém o fundo branco mesmo com a animação
   },
-  circleButton: {
-    marginLeft: 15,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#ffffff56',
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 5,
-  },
   profileImageContainer: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    overflow: 'hidden',
-    borderWidth: 1.5,
-    borderColor: '#ffffff96',
   },
   profileImage: {
     width: '100%',
@@ -174,6 +163,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   qrButtonGradient: {
+    backgroundColor:'#0475FF',
     width: '100%',
     height: '100%',
     borderRadius: 35,
