@@ -58,7 +58,7 @@ const randomImageURL = 'https://img.freepik.com/fotos-premium/retrato-de-engenhe
           <Ionicons name="log-out-outline" size={24} color="white" />
           <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
-        <Text style={styles.versionText}>Bower v1.0.0</Text>
+        <Text style={styles.versionText}>~v1.0.0</Text>
       </View>
     </View>
         </DrawerContentScrollView>
@@ -76,7 +76,7 @@ const randomImageURL = 'https://img.freepik.com/fotos-premium/retrato-de-engenhe
           headerShown: false,
           overlayColor: 'transparent',
           drawerStyle: {
-            backgroundColor: '#2F2F2F', // 🔥 Fundo branco do Drawer
+            backgroundColor: '#0475FF', // 🔥 Fundo branco do Drawer
             width: 200,
           },
         }}
@@ -153,65 +153,3 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
-
-
-
-
-// import { Drawer } from 'expo-router/drawer';
-// import { Ionicons } from '@expo/vector-icons';
-// import { StatusBar } from 'expo-status-bar';
-// import { useNavigationState } from '@react-navigation/native';
-// import { useEffect, useState } from 'react';
-// import { processColorsInProps } from 'react-native-reanimated/lib/typescript/Colors';
-
-// export default function DrawerLayout() {
-//   const navigationState = useNavigationState((state) => state);
-//   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-//   // 🔥 Detecta se o Drawer está aberto e atualiza o estado
-//   useEffect(() => {
-//     if (navigationState?.routes) {
-//       const drawerRoute = navigationState.routes.find((route) => route.name === "(drawer)");
-//       // setIsDrawerOpen(drawerRoute?.state?.index > 0);
-//     }
-//   }, [navigationState]);
-
-//   return (
-//     <>
-//       {/* 🔥 Muda a cor da StatusBar dinamicamente */}
-//       <StatusBar style={isDrawerOpen ? 'dark' : 'light'} />
-
-//       <Drawer
-//         screenOptions={{
-//           headerShown: false,
-//           overlayColor: 'transparent',
-//           drawerActiveTintColor: '#FF9900',
-//           drawerInactiveTintColor: '#aaa',
-//           drawerStyle: {
-//             backgroundColor: '#FFFFFF', // 🔥 Fundo branco do Drawer
-//             width: 260,
-//           },
-//           drawerLabelStyle: {
-//             fontSize: 16,
-//             color: '#333',
-//           },
-//         }}
-//       >
-//         <Drawer.Screen
-//           name="(tabs)"
-//           options={{
-//             title: 'Configurações',
-//             drawerIcon: ({ color }) => <Ionicons name="settings" size={20} color={color} />,
-//           }}
-//         />
-//          <Drawer.Screen
-//           name="index"
-//           options={{
-//             title: 'Suport',
-//             drawerIcon: ({ color }) => <Ionicons name="call" size={20} color={color} />,
-//           }}
-//         />
-//       </Drawer>
-//     </>
-//   );
-// }

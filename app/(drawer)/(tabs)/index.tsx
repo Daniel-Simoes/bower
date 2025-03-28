@@ -1,82 +1,15 @@
-// import React from "react";
-// import { View, Text, TouchableOpacity, Image, FlatList, StyleSheet } from "react-native";
-
-// const data = [
-//   {
-//     id: "1",
-//     title: "Drawings",
-//     description: "Electrical & Mechanical Schem...",
-//     icon: "https://cdn-icons-png.flaticon.com/512/337/337946.png", // Ícone PDF exemplo
-//   },
-//   {
-//     id: "2",
-//     title: "Docs Shared",
-//     description: "Data Sheets, Warrants & Instructions...",
-//     icon: "https://cdn-icons-png.flaticon.com/512/716/716784.png", // Ícone de compartilhamento exemplo
-//   },
-// ];
-
-// const ListItem = ({ item }) => (
-//   <TouchableOpacity style={styles.item}>
-//     <Image source={{ uri: item.icon }} style={styles.icon} />
-//     <View>
-//       <Text style={styles.title}>{item.title}</Text>
-//       <Text style={styles.description}>{item.description}</Text>
-//     </View>
-//   </TouchableOpacity>
-// );
-
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <FlatList
-//         data={data}
-//         keyExtractor={(item) => item.id}
-//         renderItem={({ item }) => <ListItem item={item} />}
-//       />
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     paddingHorizontal: 5, // Controle de espaçamento horizontal
-//     backgroundColor: "#f5f5f5",
-//   },
-//   item: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     backgroundColor: "#fff",
-//     padding: 15, // Menor padding para diminuir o tamanho dos itens
-//     marginVertical: 2, // Diminuir ainda mais o espaçamento entre os itens
-//     borderRadius: 5,
-//     shadowColor: "#000",
-//     shadowOpacity: 0.1,
-//     shadowOffset: { width: 0, height: 2 },
-//     elevation: 3,
-//   },
-//   icon: {
-//     width: 40,
-//     height: 40,
-//     marginRight: 10, // Espaço entre o ícone e o texto
-//   },
-//   title: {
-//     fontSize: 16,
-//     fontWeight: "bold",
-//   },
-//   description: {
-//     fontSize: 14,
-//     color: "#666",
-//   },
-// });import React, { useState } from 'react';
 import { useState } from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, FlatList } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, FlatList,Alert, TouchableOpacity } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
-import { Ionicons } from '@expo/vector-icons';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 const { width } = Dimensions.get('window');
+
+const iconsT = {
+  "pdf": require('../../../assets/icons/pdf.png'),
+  "upload": require('../../../assets/icons/upload.png'),
+  "download": require('../../../assets/icons/download.png'),
+};
 
 const data = [
   { 
@@ -87,7 +20,7 @@ const data = [
     type: 'Drawings', 
     description: 'Electrical & Mechanical Schem...', 
     image: 'https://as2.ftcdn.net/jpg/01/09/07/43/1000_F_109074362_OEISoYgpTh12fXl7KQm8E3jFLPHREdvT.jpg', 
-    icon: "file-pdf", 
+    icon: "pdf", 
   },
   { 
     id: '2', 
@@ -97,7 +30,7 @@ const data = [
     type: 'Docs Shared', 
     description: 'Data Sheets, Warrants & Instructions...', 
     image: 'https://parker-design.co.uk/assets/datasheet-design-allmed-data-sheets.jpg', 
-    icon: "creative-commons-share",
+    icon: "upload",
    },
   { 
     id: '3', 
@@ -107,7 +40,7 @@ const data = [
     type: 'Apartment Progress', 
     description: 'Site updates & future ends...', 
     image: 'https://www.squadrapvc.com.br/img/blog/grande/9096383d22567dd1a505888d438f34ac.webp', 
-    icon: 'chart-bar',
+    icon: 'download',
    },
   { 
     id: '4', 
@@ -117,7 +50,7 @@ const data = [
     type: 'Docs Shared', 
     description: 'Electrical & Mechanical Schem...', 
     image: 'https://parker-design.co.uk/assets/datasheet-design-allmed-data-sheets.jpg', 
-    icon: "creative-commons-share",
+    icon: "upload",
    },
   { 
     id: '5', 
@@ -127,29 +60,24 @@ const data = [
     type: 'Apartment Progress', 
     description: 'Data Sheets, Warrants & Instructions...', 
     image: 'https://www.squadrapvc.com.br/img/blog/grande/9096383d22567dd1a505888d438f34ac.webp', 
-    icon: 'chart-bar',
+    icon: 'download',
    },
 ];
 
-// Função para agrupar os itens por tipo e remover duplicatas dentro de cada grupo
+// Agrupar os itens por tipo
 const groupByType = (data) => {
   const grouped = {};
-
   data.forEach((item) => {
     if (!grouped[item.type]) {
       grouped[item.type] = { type: item.type, items: [] };
     }
-
-    // Verifica se já existe um item com o mesmo titleC e descriptionC no grupo
     const isDuplicate = grouped[item.type].items.some(
       (existingItem) => existingItem.titleC === item.titleC && existingItem.descriptionC === item.descriptionC
     );
-
     if (!isDuplicate) {
       grouped[item.type].items.push(item);
     }
   });
-
   return Object.values(grouped);
 };
 
@@ -157,7 +85,7 @@ const groupedData = groupByType(data);
 
 const App = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedType, setSelectedType] = useState(groupedData[0]?.type || ''); // Inicializa com o primeiro tipo disponível
+  const [selectedType, setSelectedType] = useState(groupedData[0]?.type || '');
 
   return (
     <View style={styles.container}>
@@ -171,15 +99,14 @@ const App = () => {
         mode="parallax"
         onSnapToItem={(index) => {
           setCurrentIndex(index);
-          setSelectedType(groupedData[index].type); // Atualiza o tipo selecionado
+          setSelectedType(groupedData[index].type);
         }}
         modeConfig={{
-          parallaxScrollingScale: 0.75,
-          parallaxScrollingOffset: 120,
+          parallaxScrollingScale: 0.79,
+          parallaxScrollingOffset: 125,
         }}
         renderItem={({ item }) => {
           const imageUri = item.items.length > 0 ? item.items[0].image : 'https://via.placeholder.com/300';
-
           return (
             <View style={styles.card}>
               <Image source={{ uri: imageUri }} style={styles.image} resizeMode="cover" />
@@ -203,42 +130,65 @@ const App = () => {
         ))}
       </View>
       
-      {/* FlatList Filtrada */}
+      {/* Lista Filtrada */}
       <View style={styles.containerf}>
         <Text style={styles.sectionTitlef}>{selectedType} Features</Text>
         <FlatList
-          data={data.filter((item) => item.type === selectedType)} // Mostra apenas itens do tipo selecionado
-          keyExtractor={(item) => item.id}
-          style={{backgroundColor:'#FFFFFF',borderRadius:12}}
-          renderItem={({ item }) => (
-            <View style={styles.cardf}>
-              <FontAwesome6 name={item.icon} size={20} color="#565656" style={styles.iconf}/>
-              <View style={styles.textContainerf}>
-                <Text style={styles.titlef}>{item.title}</Text>
-                <Text style={styles.descriptionf}>{item.description}</Text>
-              </View>
-            </View>
-          )}
-          ItemSeparatorComponent={() => <View style={styles.separatorf} />}
-        />
+  data={data.filter((item) => item.type === selectedType)}
+  scrollEnabled={data.filter((item) => item.type === selectedType).length > 3} // Desativa o scroll se tiver 3 ou menos
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => (
+    <TouchableOpacity 
+      onPress={() => Alert.alert("Item Clicado", `Você clicou em: ${item.title}`)} 
+      activeOpacity={0.7}
+    >
+      <View style={styles.cardf}>
+      <Image source={iconsT[item.icon]} style={styles.iconf} />
+        {/* <FontAwesome6 name={item.icon} size={20} color="#565656" style={styles.iconf}/> */}
+        <View style={styles.textContainerf}>
+          <Text style={styles.titlef}>{item.title}</Text>
+          <Text style={styles.descriptionf}>{item.description}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  )}
+  // ItemSeparatorComponent={() => <View style={styles.separatorf} />}
+/>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingHorizontal: 5, backgroundColor: "#F3F3F4", top: -20 },
-  card: { borderRadius: 20, overflow: 'hidden', elevation: 5, marginBottom: 10, justifyContent: 'center', alignItems: 'center' },
-  image: { width: width, height: 300, },
-  cardTextContainer: { padding: 15, backgroundColor: '#ffffff', borderBottomLeftRadius: 20, borderBottomRightRadius: 20, width: '100%' },
+  container: { flex: 1, backgroundColor: "#F3F3F4", top: -20 },
+  card: { 
+    borderRadius: 20, 
+    overflow: 'hidden', 
+    elevation: 5, 
+    justifyContent: 'center', 
+    alignItems: 'center' 
+  },
+  image: { 
+    width: width * 0.9, 
+    height: 250, 
+    borderTopLeftRadius: 20,  
+    borderTopRightRadius: 20, 
+  },
+  cardTextContainer: { 
+    padding: 15, 
+    backgroundColor: '#ffffff', 
+    borderBottomLeftRadius: 20, 
+    borderBottomRightRadius: 20, 
+    width: width * 0.9 
+  },
   cardTitle: { fontSize: 18, fontWeight: 'bold' },
   subItemContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 5 },
   subItemText: { fontSize: 14, color: '#666' },
   pagination: { 
     flexDirection: 'row', 
     justifyContent: 'center', 
-    marginTop: -15,
-    marginBottom:30 
+    marginTop: -40,
+    marginBottom: 25 
   },
   paginationDot: { 
     width: 8, 
@@ -248,25 +198,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 5 
   },
   paginationDotActive: { 
-    backgroundColor: '#d3d3d364',  // Azul do app (você pode alterar o código da cor para o azul que preferir)
-    width: 10,  // Aumenta o tamanho do indicador ativo
-    height: 10,  // Aumenta o tamanho do indicador ativo
-    borderRadius: 6,  // Mantém o formato arredondado,
-    borderWidth: 1,
-    borderColor: '#0475ff60',
+    backgroundColor: '#0475ff89',  // Azul do app
+    width: 12,  // Maior que os outros
+    height: 12,  
+    borderRadius: 7,
+    top:-2
+    // borderWidth: 2,
+    // borderColor: '#fd04fd',
   },
-  containerf: { 
-    
-    backgroundColor: '#f5f5f5', 
-    padding: 5,
-  },
-  sectionTitlef: { fontSize: 18, fontWeight: 'bold', marginBottom: 10, color: '#333' },
-  cardf: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'white', padding: 16, borderRadius: 10,  shadowRadius: 5, elevation: 3 },
-  iconf: {top:-10},
-  textContainerf: { flex: 1, left:10, },
-  titlef: { fontSize: 16, fontWeight: 'bold', color: '#565656', paddingBottom:3 },
+  containerf: { backgroundColor: '#f5f5f5', padding: 8 },
+  sectionTitlef: { fontSize: 18, fontWeight: 'bold', marginBottom: 15, color: '#5f5f5f', left: 10 },
+  cardf: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'white', padding: 16, borderRadius: 10, shadowRadius: 5, elevation: 3, margin:4 },
+  iconf: { top: -10, width:20, height:20 },
+  textContainerf: { flex: 1, left: 10 },
+  titlef: { fontSize: 16, fontWeight: 'bold', color: '#565656', paddingBottom: 3 },
   descriptionf: { fontSize: 14, color: '#666' },
-  separatorf: { height: 1, backgroundColor: '#ededed', marginVertical: 8, width:'80%',  alignSelf: 'center',},
+  separatorf: { height: 1, backgroundColor: '#ededed', marginVertical: 8, width: '80%', alignSelf: 'center' },
 });
 
 export default App;

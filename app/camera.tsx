@@ -117,7 +117,12 @@ export default function CameraScreen() {
           </BlurView>
         </TouchableOpacity>
         )}
-        <View style={styles.overlay}>
+        <View 
+        style={[
+          styles.overlay,
+          { backgroundColor: !hasScanned ? 'rgba(0, 0, 0, 0.6)' : 'transparent' }, // Aplica o escurecimento somente após o QR code ser lido
+        ]}
+        >
           {isLoading ? (
             <>
               <ActivityIndicator size="large" color="#00000091" />

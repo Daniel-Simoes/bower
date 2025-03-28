@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, Image, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, Image, View, StyleSheet, StatusBar } from 'react-native';
 import { router, Tabs } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
@@ -13,9 +13,6 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-
-
-
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -36,6 +33,17 @@ export default function TabLayout() {
     }
   }, [drawerStatus]);
 
+  // Alterando a cor da StatusBar com base no estado do Drawer (invertido)
+  React.useEffect(() => {
+    if (drawerStatus === 'open') {
+      StatusBar.setBarStyle('light-content'); // Cor clara para quando o Drawer estiver aberto
+      StatusBar.setBackgroundColor('#000000'); // Cor de fundo preta quando o Drawer estiver aberto
+    } else {
+      StatusBar.setBarStyle('dark-content'); // Cor escura para quando o Drawer estiver fechado
+      StatusBar.setBackgroundColor('#ffffff'); // Cor de fundo branca quando o Drawer estiver fechado
+    }
+  }, [drawerStatus]);
+
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
     borderRadius: borderRadius.value,
@@ -52,8 +60,6 @@ export default function TabLayout() {
       <Animated.View style={[styles.animatedContainer, animatedStyle]}>
         <Tabs
           screenOptions={{
-            // sceneContainerStyle: { backgroundColor: 'white' }, // Fundo branco para Tabs
-            // drawerContentStyle: { backgroundColor: 'white' }, // Fundo branco para Drawer
             tabBarActiveTintColor: '#0475FF',
             tabBarInactiveTintColor: '#D3D3D3',
             tabBarStyle: {
@@ -71,7 +77,7 @@ export default function TabLayout() {
             tabBarButton: HapticTab,
             headerLeft: () => (
               <TouchableOpacity>
-                <DrawerToggleButton tintColor="#0475FF" />
+                <DrawerToggleButton tintColor="#0475ffa7" />
               </TouchableOpacity>
             ),
             headerStyle: {
@@ -79,7 +85,7 @@ export default function TabLayout() {
               backgroundColor: 'transparent',
             },
             headerBackground: () => (
-              <View style={{ flex: 1,backgroundColor:'#ffffff' }} />
+              <View style={{ flex: 1, backgroundColor:'#ffffff' }} />
             ),
             headerRight: () => (
               <TouchableOpacity style={{ marginRight: 15 }} onPress={() => router.push('/profile')}>
@@ -105,14 +111,8 @@ export default function TabLayout() {
               tabBarIcon: ({ color }) => <Ionicons name="notifications-outline" size={28} color={color} />,
               headerShown: true,
               headerTitleAlign: 'center',
-              headerStyle: {
-                backgroundColor: '#FF9900',
-                height: 100,
-              },
-              headerBackground: () => (
-                <LinearGradient colors={['#995C00', '#FF9900']} style={{ flex: 1 }} />
-              ),
               headerTitle: 'Notificações',
+              headerTintColor:'black',
               headerLeft: () => null,
               headerRight: () => null,
             }}
@@ -126,7 +126,6 @@ export default function TabLayout() {
           </View>
         </TouchableOpacity>
       </Animated.View>
-      
     </View>
   );
 }
@@ -134,21 +133,25 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   drawerBackground: {
     flex: 1,
-    backgroundColor: '#2F2F2F', // Garante que o fundo do Drawer fique branco
+    backgroundColor: '#0475FF',
   },
   animatedContainer: {
     flex: 1,
-    backgroundColor: 'white', // Mantém o fundo branco mesmo com a animação
+    backgroundColor: 'white',
   },
   profileImageContainer: {
+    width: 46,
+    height: 46,
+    borderRadius: 23,
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#F3F3F4',
+  },
+  profileImage: {
     width: 40,
     height: 40,
     borderRadius: 20,
-  },
-  profileImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 20,
+    alignSelf: 'center',
   },
   qrButton: {
     position: 'absolute',
@@ -171,5 +174,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-
