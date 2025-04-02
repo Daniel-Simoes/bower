@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { processColorsInProps } from 'react-native-reanimated/lib/typescript/Colors';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { router } from 'expo-router';
 export default function DrawerLayout() {
   const navigationState = useNavigationState((state) => state);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -37,7 +38,7 @@ const randomImageURL = 'https://img.freepik.com/fotos-premium/retrato-de-engenhe
       </View>
 
       {/* Opções do Menu */}
-      <TouchableOpacity style={styles.menuItem} onPress={() => {}}>
+      <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/setting')}>
         <Ionicons name="settings-outline" size={24} color="white" />
         <Text style={styles.menuText}>Configurações</Text>
       </TouchableOpacity>
