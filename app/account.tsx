@@ -10,10 +10,6 @@ export default function AccountScreen() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-              <Ionicons name="arrow-back" size={24} color="black" />
-            </TouchableOpacity>
-      <Text style={styles.header}>Account</Text>
       
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>Account Details</Text>
@@ -107,3 +103,6 @@ const styles = StyleSheet.create({
     marginTop: -10,
   },
 });
+
+
+

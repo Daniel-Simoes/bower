@@ -8,17 +8,12 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-        <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
-      <Text style={styles.header}>Configuracoes</Text>
-      
       <View style={styles.card}>
         <TouchableOpacity style={styles.row} onPress={() => router.push('/account')}>
           <Text style={styles.rowText}>Account</Text>
           <Ionicons name="chevron-forward" size={20} color="gray" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.row}>
+        <TouchableOpacity style={styles.row} onPress={() => router.push('/termoDeUso')}>
           <Text style={styles.rowText}>Privacy Policy</Text>
           <Ionicons name="chevron-forward" size={20} color="gray" />
         </TouchableOpacity>
