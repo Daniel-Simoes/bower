@@ -1,35 +1,45 @@
-
-
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-export default function AccountScreen() {
+const data = {
+  username: "Mick Phillip",
+  email: "mick.phillip@gmail.com",
+  yourPlan: "Entry-Control",
+};
+
+export default function TabTwoScreen() {
   const router = useRouter();
+
+  const navigateToPremiumPlans = () => {
+    // router.push(); 
+  };
 
   return (
     <View style={styles.container}>
-      
+      {/* Card de detalhes da conta */}
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>Account Details</Text>
         <Text style={styles.label}>Username</Text>
-        <Text style={styles.value}>Mick Phillip</Text>
+        <Text style={styles.value}>{data.username}</Text>
         <Text style={styles.label}>Email</Text>
-        <Text style={styles.value}>mick.phillip@gmail.com</Text>
+        <Text style={styles.value}>{data.email}</Text>
       </View>
-      
+
+      {/* Card de plano de usuário */}
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>Your Plan</Text>
         <View style={styles.planContainer}>
           <Ionicons name="shield-checkmark" size={40} color="#007AFF" style={styles.planIcon} />
-          <Text style={styles.planText}>Entry-Control</Text>
+          <Text style={styles.planText}>{data.yourPlan}</Text>
         </View>
       </View>
 
-      <TouchableOpacity style={styles.card}>
+      {/* Card de planos premium */}
+      <TouchableOpacity style={styles.card} onPress={navigateToPremiumPlans}>
         <Text style={styles.premiumTitle}>Premium Plans</Text>
-        <Text style={styles.premiumSubtitle}>Enjoy Full access and more.</Text>
+        <Text style={styles.premiumSubtitle}>Enjoy full access and more.</Text>
         <Ionicons name="chevron-forward" size={20} color="gray" style={styles.chevronIcon} />
       </TouchableOpacity>
     </View>
@@ -40,18 +50,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F8F8F8",
-    padding: 20,
-  },
-  backButton: {
-    position: "absolute",
-    top: 50,
-    left: 20,
-  },
-  header: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginVertical: 20,
+    padding: 10,
   },
   card: {
     backgroundColor: "#fff",
@@ -99,10 +98,8 @@ const styles = StyleSheet.create({
   chevronIcon: {
     position: "absolute",
     right: 15,
-    top: "50%",
-    marginTop: -10,
+    top: "65%",
   },
 });
-
 
 

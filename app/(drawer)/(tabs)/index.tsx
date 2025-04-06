@@ -134,33 +134,32 @@ const App = () => {
       <View style={styles.containerf}>
         <Text style={styles.sectionTitlef}>{selectedType} Features</Text>
         <FlatList
-  data={data.filter((item) => item.type === selectedType)}
-  scrollEnabled={data.filter((item) => item.type === selectedType).length > 3} // Desativa o scroll se tiver 3 ou menos
-  keyExtractor={(item) => item.id}
-  renderItem={({ item }) => (
-    <TouchableOpacity 
-      onPress={() => Alert.alert("Item Clicado", `Você clicou em: ${item.title}`)} 
-      activeOpacity={0.7}
-    >
-      <View style={styles.cardf}>
-      <Image source={iconsT[item.icon]} style={styles.iconf} />
-        {/* <FontAwesome6 name={item.icon} size={20} color="#565656" style={styles.iconf}/> */}
-        <View style={styles.textContainerf}>
-          <Text style={styles.titlef}>{item.title}</Text>
-          <Text style={styles.descriptionf}>{item.description}</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  )}
-  // ItemSeparatorComponent={() => <View style={styles.separatorf} />}
-/>
+          data={data.filter((item) => item.type === selectedType)}
+          scrollEnabled={data.filter((item) => item.type === selectedType).length > 3} // Desativa o scroll se tiver 3 ou menos
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity 
+              onPress={() => Alert.alert("Item Clicado", `Você clicou em: ${item.title}`)} 
+              activeOpacity={0.7}
+            >
+              <View style={styles.cardf}>
+                <Image source={iconsT[item.icon]} style={styles.iconf} />
+                {/* <FontAwesome6 name={item.icon} size={20} color="#565656" style={styles.iconf}/> */}
+                <View style={styles.textContainerf}>
+                  <Text style={styles.titlef}>{item.title}</Text>
+                  <Text style={styles.descriptionf}>{item.description}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F3F3F4", top: -20 },
+  container: { flex: 1, backgroundColor: "#f0f0fb", top: -20 },
   card: { 
     borderRadius: 20, 
     overflow: 'hidden', 
@@ -206,7 +205,7 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     // borderColor: '#fd04fd',
   },
-  containerf: { backgroundColor: '#f5f5f5', padding: 8 },
+  containerf: { backgroundColor: '#f0f0fb', padding: 8 },
   sectionTitlef: { fontSize: 18, fontWeight: 'bold', marginBottom: 15, color: '#5f5f5f', left: 10 },
   cardf: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'white', padding: 16, borderRadius: 10, shadowRadius: 5, elevation: 3, margin:4 },
   iconf: { top: -10, width:20, height:20 },

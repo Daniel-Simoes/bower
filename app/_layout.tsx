@@ -9,6 +9,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
+import { DrawerToggleButton } from '@react-navigation/drawer';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -46,17 +47,12 @@ export default function RootLayout() {
           ),
         }}
       >
-        <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
-        <Stack.Screen name="settings" options={{ title: 'Configurações' }} />
-        <Stack.Screen name="account" options={{ title: 'Account' }} />
-        <Stack.Screen name="termOfUse" options={{ title: 'Termo de Uso' }} />
-        <Stack.Screen 
-  name="profile" 
-  options={{ 
-    presentation: 'modal', 
-    headerShown: false 
-  }} 
-/>
+        <Stack.Screen name="(drawer)" options={{ headerShown: false }}/>
+        <Stack.Screen name="settings" options={{ title: 'Configurações' }}/>
+        <Stack.Screen name="account" options={{ title: 'Account' }}/>
+        <Stack.Screen name="termOfUse" options={{ title: 'Termo de Uso' }}/>
+        <Stack.Screen name="privacyPolicy" options={{ title: 'Privacy Policy' }}/>
+        <Stack.Screen name="profile" options={{ presentation: 'modal', headerShown: false }}/>
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

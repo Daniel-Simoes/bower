@@ -1,17 +1,13 @@
 import React from 'react';
-import { TouchableOpacity, Text, Image, View, StyleSheet, StatusBar } from 'react-native';
+import { TouchableOpacity, Image, View, StyleSheet, StatusBar } from 'react-native';
 import { router, Tabs } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useDrawerStatus } from '@react-navigation/drawer'; // Detectar se o Drawer está aberto
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
@@ -55,7 +51,6 @@ export default function TabLayout() {
 
   return (
     <View style={styles.drawerBackground}> 
-    
       {/* View para garantir fundo branco no Drawer */}
       <Animated.View style={[styles.animatedContainer, animatedStyle]}>
         <Tabs
@@ -81,7 +76,6 @@ export default function TabLayout() {
               </TouchableOpacity>
             ),
             headerStyle: {
-              height: 100,
               backgroundColor: 'transparent',
             },
             headerBackground: () => (
@@ -133,7 +127,7 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   drawerBackground: {
     flex: 1,
-    backgroundColor: '#0475FF',
+    backgroundColor: '#0475FF',   
   },
   animatedContainer: {
     flex: 1,
