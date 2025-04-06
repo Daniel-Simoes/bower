@@ -50,6 +50,13 @@ export default function RootLayout() {
         <Stack.Screen name="settings" options={{ title: 'Configurações' }} />
         <Stack.Screen name="account" options={{ title: 'Account' }} />
         <Stack.Screen name="termOfUse" options={{ title: 'Termo de Uso' }} />
+        <Stack.Screen 
+  name="profile" 
+  options={{ 
+    presentation: 'modal', 
+    headerShown: false 
+  }} 
+/>
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

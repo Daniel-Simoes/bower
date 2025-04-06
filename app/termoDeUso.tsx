@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 export default function TermsOfUseScreen() {
