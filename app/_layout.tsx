@@ -53,6 +53,7 @@ export default function RootLayout() {
         <Stack.Screen name="termOfUse" options={{ title: 'Termo de Uso' }}/>
         <Stack.Screen name="privacyPolicy" options={{ title: 'Privacy Policy' }}/>
         <Stack.Screen name="profile" options={{ presentation: 'modal', headerShown: false }}/>
+        <Stack.Screen name="infomation" options={{ presentation: 'modal', headerShown: false }}/>
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
